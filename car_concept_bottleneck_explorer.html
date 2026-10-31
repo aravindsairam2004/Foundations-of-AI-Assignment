@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#101026">
+<title>CBN Demonstration — Explore AI, Playfully</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0d0d1d;--panel:rgba(255,255,255,.075);--panel-border:rgba(255,255,255,.13);--text:#f8f7ff;--muted:#b0b1ca;--purple:#a78bfa;--pink:#fb7185;--cyan:#67e8f9;--lime:#bef264;--shadow:0 20px 65px #0003;--radius:24px}
+*{box-sizing:border-box}html{scroll-behavior:smooth;scroll-padding-top:100px}body{margin:0;background:var(--bg);color:var(--text);font-family:"DM Sans",sans-serif;overflow-x:hidden;transition:background .35s,color .35s}
+body.light{--bg:#f3f4ff;--panel:rgba(255,255,255,.72);--panel-border:rgba(74,70,130,.15);--text:#17172d;--muted:#656681;--shadow:0 20px 55px #6b67a51c}
+button,a{font:inherit}button{color:inherit}a{color:inherit;text-decoration:none}
+.bg-mesh{position:fixed;inset:0;z-index:-3;pointer-events:none;background:radial-gradient(ellipse at 15% 8%,#7638e833,transparent 33%),radial-gradient(ellipse at 88% 28%,#f43f5e22,transparent 29%),radial-gradient(ellipse at 55% 80%,#06b6d422,transparent 32%),var(--bg);transition:background .35s}
+.blob{position:fixed;z-index:-2;width:240px;height:240px;border-radius:50%;filter:blur(70px);opacity:.18;pointer-events:none;animation:drift 17s ease-in-out infinite alternate}.blob.one{top:12%;left:-80px;background:#8b5cf6}.blob.two{top:48%;right:-90px;background:#fb7185;animation-delay:-7s}.blob.three{bottom:-100px;left:42%;background:#22d3ee;animation-delay:-12s}
+@keyframes drift{from{transform:translate3d(0,-20px,0) scale(.85)}to{transform:translate3d(60px,40px,0) scale(1.18)}}
+.loader{position:fixed;inset:0;z-index:200;background:#0d0d1d;display:grid;place-items:center;transition:opacity .5s,visibility .5s}.loader.hide{opacity:0;visibility:hidden}.loader-inner{text-align:center}.loader-mark{font-size:48px;animation:loaderPulse .8s ease-in-out infinite alternate}.loader-track{width:180px;height:4px;background:#ffffff22;border-radius:9px;margin:18px auto;overflow:hidden}.loader-track span{display:block;width:40%;height:100%;border-radius:9px;background:linear-gradient(90deg,#a78bfa,#fb7185,#67e8f9);animation:load 1s ease-in-out infinite alternate}@keyframes load{to{width:100%}}@keyframes loaderPulse{to{transform:scale(1.13) rotate(-5deg)}}
+.nav{position:sticky;top:0;z-index:50;display:flex;justify-content:center;padding:13px 20px;background:linear-gradient(180deg,var(--bg),color-mix(in srgb,var(--bg) 82%,transparent));backdrop-filter:blur(18px);border-bottom:1px solid var(--panel-border)}
+.nav-inner{width:min(1200px,100%);display:flex;align-items:center;gap:22px}.brand{display:flex;align-items:center;gap:10px;font:700 17px "Space Grotesk",sans-serif;white-space:nowrap}.brand-icon{display:grid;place-items:center;width:37px;height:37px;border-radius:12px;background:linear-gradient(135deg,#8b5cf6,#ec4899);box-shadow:0 6px 20px #8b5cf644;font-size:20px}.nav-links{display:flex;gap:5px;margin-left:auto}.nav-links a{padding:10px 13px;color:var(--muted);font-size:13px;font-weight:700;border-radius:11px;transition:.2s}.nav-links a:hover{background:var(--panel);color:var(--text);transform:translateY(-2px)}.icon-btn{width:39px;height:39px;border:1px solid var(--panel-border);background:var(--panel);border-radius:12px;cursor:pointer;transition:.2s}.icon-btn:hover{transform:rotate(-8deg) scale(1.08);box-shadow:0 0 22px #a78bfa33}.menu-btn{display:none}
+.wrap{width:min(1200px,calc(100% - 40px));margin:auto}.hero{min-height:630px;display:grid;grid-template-columns:1.1fr .9fr;align-items:center;gap:50px;padding:70px 0 85px;position:relative}.eyebrow{display:inline-flex;align-items:center;gap:8px;padding:8px 12px;border:1px solid #a78bfa55;background:#a78bfa12;border-radius:99px;color:var(--purple);font-size:11px;font-weight:800;letter-spacing:.12em;text-transform:uppercase}.eyebrow i{width:7px;height:7px;border-radius:50%;background:var(--lime);box-shadow:0 0 12px var(--lime)}h1,h2,h3,p{margin-top:0}h1{font:700 clamp(48px,7vw,86px)/.98 "Space Grotesk",sans-serif;letter-spacing:-.065em;margin:24px 0}.gradient-text{background:linear-gradient(100deg,#c4b5fd 0%,#fb7185 48%,#67e8f9 90%);-webkit-background-clip:text;background-clip:text;color:transparent}.hero-copy{max-width:560px;color:var(--muted);font-size:17px;line-height:1.75}.hero-actions{display:flex;gap:12px;flex-wrap:wrap;margin-top:28px}.btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;border:0;border-radius:14px;padding:14px 19px;font-weight:800;cursor:pointer;transition:transform .22s,box-shadow .22s,filter .22s}.btn-primary{background:linear-gradient(100deg,#8b5cf6,#ec4899);box-shadow:0 12px 30px #a855f744;color:#fff}.btn-secondary{border:1px solid var(--panel-border);background:var(--panel);color:var(--text)}.btn:hover{transform:translateY(-3px) scale(1.02);box-shadow:0 16px 35px #8b5cf633}.btn:active{transform:scale(.97)}
+.hero-visual{min-height:400px;position:relative;display:grid;place-items:center}.orbit{position:absolute;width:min(390px,90%);aspect-ratio:1;border:1px solid #ffffff1a;border-radius:50%;animation:spin 36s linear infinite}.orbit:before,.orbit:after{content:"";position:absolute;width:14px;height:14px;border-radius:50%;background:var(--cyan);box-shadow:0 0 22px var(--cyan);top:12%;left:19%}.orbit:after{background:var(--pink);box-shadow:0 0 22px var(--pink);top:auto;left:auto;right:9%;bottom:23%;width:10px;height:10px}@keyframes spin{to{transform:rotate(360deg)}}
+.hero-core{width:min(300px,76%);aspect-ratio:1;border:1px solid #ffffff25;border-radius:35%;background:linear-gradient(145deg,#ffffff14,#ffffff04);backdrop-filter:blur(18px);box-shadow:0 30px 100px #0004,inset 0 0 50px #ffffff08;display:grid;place-items:center;transform:rotate(-7deg);animation:coreFloat 5s ease-in-out infinite}.core-inner{transform:rotate(7deg);text-align:center}.core-emoji{font-size:100px;filter:drop-shadow(0 15px 25px #0004);animation:emojiFloat 3s ease-in-out infinite}.core-label{font:700 14px "Space Grotesk",sans-serif;letter-spacing:.1em;margin-top:5px}.core-sub{font-size:11px;color:var(--muted);margin-top:7px}@keyframes coreFloat{50%{transform:rotate(-3deg) translateY(-9px)}}@keyframes emojiFloat{50%{transform:translateY(-9px) rotate(4deg)}}
+.float-chip{position:absolute;padding:12px 15px;border:1px solid var(--panel-border);background:var(--panel);backdrop-filter:blur(16px);border-radius:16px;box-shadow:var(--shadow);font-size:12px;font-weight:800;animation:chipFloat 4s ease-in-out infinite}.float-chip span{font-size:20px;margin-right:7px;vertical-align:middle}.chip-a{top:10%;right:0}.chip-b{left:0;top:33%;animation-delay:-1.2s}.chip-c{right:1%;bottom:10%;animation-delay:-2s}@keyframes chipFloat{50%{transform:translateY(-10px) rotate(1deg)}}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:30px;max-width:470px}.stat{border-left:2px solid #a78bfa;padding-left:13px}.stat strong{font:700 23px "Space Grotesk",sans-serif;display:block}.stat span{font-size:11px;color:var(--muted)}
+.section{padding:78px 0;position:relative}.section-head{display:flex;justify-content:space-between;align-items:end;gap:25px;margin-bottom:28px}.section-kicker{font-size:11px;font-weight:850;letter-spacing:.15em;text-transform:uppercase;color:var(--purple);margin-bottom:10px}.section-head h2{font:700 clamp(32px,4.5vw,49px)/1.05 "Space Grotesk",sans-serif;letter-spacing:-.045em;margin:0}.section-head p{max-width:440px;color:var(--muted);line-height:1.65;margin:0;font-size:14px}.category{margin:25px 0 70px;scroll-margin-top:105px}.category-top{display:flex;align-items:center;gap:14px;margin-bottom:22px}.category-icon{width:57px;height:57px;display:grid;place-items:center;font-size:30px;border-radius:18px;border:1px solid var(--panel-border);background:var(--panel);box-shadow:0 10px 30px #0002;transition:.3s}.category-top h3{font:700 26px "Space Grotesk",sans-serif;margin:0 0 4px}.category-top p{color:var(--muted);font-size:13px;margin:0}.category-count{margin-left:auto;font-size:11px;font-weight:800;letter-spacing:.08em;color:var(--muted);padding:8px 10px;border:1px solid var(--panel-border);border-radius:99px}
+.cards{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}.item-card{position:relative;isolation:isolate;overflow:hidden;text-align:left;min-height:220px;padding:22px;border:1px solid var(--panel-border);border-radius:var(--radius);background:var(--panel);backdrop-filter:blur(16px);box-shadow:0 8px 35px #0000000a;cursor:pointer;opacity:0;transform:translateY(22px) scale(.94);transition:transform .35s cubic-bezier(.2,.9,.25,1.25),border-color .3s,box-shadow .3s,background .3s;animation:none}.item-card.visible{animation:cardPop .65s cubic-bezier(.2,.9,.25,1.25) forwards;animation-delay:var(--delay,0ms)}@keyframes cardPop{to{opacity:1;transform:translateY(0) scale(1)}}.item-card:before{content:"";position:absolute;z-index:-1;width:180px;height:180px;border-radius:50%;right:-80px;top:-95px;background:var(--accent,#a78bfa);opacity:.13;filter:blur(30px);transition:opacity .3s,transform .4s}.item-card:hover{transform:translateY(-7px) scale(1.025);border-color:color-mix(in srgb,var(--accent,#a78bfa) 65%,transparent);box-shadow:0 20px 55px color-mix(in srgb,var(--accent,#a78bfa) 18%,transparent),0 0 0 1px color-mix(in srgb,var(--accent,#a78bfa) 25%,transparent);background:color-mix(in srgb,var(--panel) 90%,var(--accent,#a78bfa) 10%)}.item-card:hover:before{opacity:.4;transform:scale(1.4)}.item-card:active{transform:scale(.98)}.item-emoji{font-size:55px;display:block;margin-bottom:22px;transform-origin:50% 80%;filter:drop-shadow(0 8px 12px #0002);transition:transform .3s cubic-bezier(.2,.8,.2,1.4)}.item-card:hover .item-emoji{transform:translateY(-5px) rotate(-7deg) scale(1.16);animation:emojiBounce .6s ease}.item-card:nth-child(even):hover .item-emoji{transform:translateY(-5px) rotate(7deg) scale(1.16)}@keyframes emojiBounce{0%,100%{translate:0 0}40%{translate:0 -10px}70%{translate:0 -3px}}.item-name{font:700 20px "Space Grotesk",sans-serif;margin-bottom:7px}.item-desc{color:var(--muted);font-size:13px;line-height:1.55;margin:0;max-width:300px}.card-bottom{display:flex;justify-content:space-between;align-items:center;margin-top:18px;color:var(--muted);font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.09em}.card-arrow{width:31px;height:31px;border-radius:10px;display:grid;place-items:center;background:var(--panel);border:1px solid var(--panel-border);transition:.25s}.item-card:hover .card-arrow{background:var(--accent,#a78bfa);color:#111126;transform:rotate(-45deg)}
+.how{display:grid;grid-template-columns:repeat(3,1fr);gap:15px}.how-card{padding:25px;border-radius:22px;background:var(--panel);border:1px solid var(--panel-border);transition:transform .3s,box-shadow .3s}.how-card:hover{transform:translateY(-5px);box-shadow:var(--shadow)}.how-num{font:700 12px "Space Grotesk",sans-serif;color:var(--purple);letter-spacing:.12em}.how-emoji{font-size:30px;margin:17px 0}.how-card h3{font:700 20px "Space Grotesk",sans-serif;margin-bottom:8px}.how-card p{font-size:13px;line-height:1.65;color:var(--muted);margin:0}
+.cta{position:relative;overflow:hidden;text-align:center;padding:55px 25px;border:1px solid #a78bfa44;border-radius:30px;background:linear-gradient(120deg,#8b5cf61c,#ec48991b,#22d3ee12);margin:20px 0 75px}.cta:before{content:"";position:absolute;width:260px;height:260px;border-radius:50%;background:#8b5cf622;filter:blur(50px);left:-70px;top:-120px}.cta h2{position:relative;font:700 clamp(30px,4vw,46px) "Space Grotesk",sans-serif;letter-spacing:-.04em;margin-bottom:12px}.cta p{position:relative;color:var(--muted);max-width:550px;margin:0 auto 22px;line-height:1.65;font-size:14px}.cta .btn{position:relative}
+.footer{border-top:1px solid var(--panel-border);padding:25px 0 35px;color:var(--muted);font-size:12px;display:flex;justify-content:space-between;gap:15px;flex-wrap:wrap}.footer strong{color:var(--text)}
+.modal{position:fixed;inset:0;z-index:100;display:grid;place-items:center;padding:20px;background:#080816aa;backdrop-filter:blur(12px);opacity:0;visibility:hidden;transition:opacity .25s,visibility .25s}.modal.open{opacity:1;visibility:visible}.modal-box{width:min(490px,100%);padding:28px;border:1px solid var(--panel-border);border-radius:26px;background:var(--bg);box-shadow:0 30px 100px #0007;transform:translateY(18px) scale(.96);transition:transform .3s cubic-bezier(.2,.9,.25,1.2)}.modal.open .modal-box{transform:translateY(0) scale(1)}.modal-close{float:right}.modal-emoji{font-size:68px;margin:15px 0}.modal h2{font:700 30px "Space Grotesk",sans-serif;margin:0 0 9px}.modal p{color:var(--muted);line-height:1.7;font-size:14px}.concept-pill{display:inline-flex;padding:8px 10px;border:1px solid var(--panel-border);border-radius:99px;margin:4px 4px 0 0;font-size:11px;background:var(--panel)}
+.toast{position:fixed;z-index:120;bottom:22px;left:50%;transform:translate(-50%,20px);opacity:0;pointer-events:none;padding:12px 17px;border-radius:99px;background:var(--text);color:var(--bg);font-size:13px;font-weight:800;box-shadow:var(--shadow);transition:.3s;white-space:nowrap;max-width:calc(100vw - 30px);overflow:hidden;text-overflow:ellipsis}.toast.show{opacity:1;transform:translate(-50%,0)}
+.back-top{position:fixed;right:20px;bottom:20px;z-index:40;width:43px;height:43px;border-radius:14px;border:1px solid var(--panel-border);background:var(--panel);backdrop-filter:blur(12px);cursor:pointer;opacity:0;pointer-events:none;transform:translateY(10px);transition:.25s}.back-top.show{opacity:1;pointer-events:auto;transform:translateY(0)}.back-top:hover{transform:translateY(-4px)}
+@media(max-width:900px){.hero{grid-template-columns:1fr .8fr;gap:20px;min-height:560px}.hero-visual{min-height:340px}.float-chip{font-size:10px;padding:9px}.cards{grid-template-columns:repeat(2,minmax(0,1fr))}.nav-inner{gap:10px}.nav-links a{padding:9px;font-size:12px}}
+@media(max-width:650px){.wrap{width:min(100% - 28px,560px)}.nav{padding:10px 14px}.nav-inner{flex-wrap:wrap}.brand{font-size:15px}.menu-btn{display:block;margin-left:auto}.nav-links{display:none;order:3;width:100%;margin:0;overflow:auto;gap:3px}.nav-links.open{display:flex}.nav-links a{white-space:nowrap}.hero{display:flex;flex-direction:column;align-items:stretch;gap:0;padding:55px 0 35px;min-height:auto}.hero-copy{font-size:15px}.hero-visual{min-height:340px;order:-1;margin-bottom:22px}.hero-visual .orbit{width:290px}.hero-core{width:225px}.core-emoji{font-size:75px}.chip-a{right:1%;top:6%}.chip-b{left:0;top:38%}.chip-c{right:0;bottom:4%}.hero h1{font-size:clamp(48px,14vw,70px);margin:18px 0}.stats{margin-top:25px}.section{padding:55px 0}.section-head{display:block}.section-head p{margin-top:13px}.category{margin-bottom:52px}.cards{gap:11px}.item-card{min-height:210px;padding:16px;border-radius:19px}.item-emoji{font-size:45px;margin-bottom:17px}.item-name{font-size:17px}.item-desc{font-size:12px}.card-bottom{font-size:9px}.how{grid-template-columns:1fr}.how-card{padding:21px}.cta{padding:40px 20px;margin-bottom:50px}.footer{display:block;line-height:1.8}.footer span{display:block}.back-top{right:13px;bottom:13px}}
+@media(max-width:380px){.cards{grid-template-columns:1fr}.item-card{min-height:185px}.item-emoji{margin-bottom:12px}.category-count{display:none}.stats{gap:8px}.stat strong{font-size:20px}}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;scroll-behavior:auto!important;transition-duration:.01ms!important}}
+
+/* Interactive concept-bottleneck playground */
+:root{--line:var(--panel-border);--card:rgba(255,255,255,.045);--accent:var(--purple)}
+body.light{--card:rgba(255,255,255,.8)}
+.playground{margin:38px auto 64px;padding:clamp(22px,4vw,42px);border:1px solid var(--line);border-radius:30px;background:linear-gradient(135deg,rgba(124,92,255,.13),rgba(30,214,180,.07)),var(--panel);box-shadow:0 24px 80px rgba(0,0,0,.16)}
+.playground-head{display:flex;gap:22px;align-items:flex-end;justify-content:space-between;flex-wrap:wrap;margin-bottom:28px}
+.playground-head h2{font-size:clamp(1.8rem,4vw,2.8rem);letter-spacing:-.05em;margin:8px 0}
+.playground-head p{color:var(--muted);max-width:660px;margin:0;line-height:1.7}
+.playground-grid{display:grid;grid-template-columns:minmax(0,1.05fr) minmax(0,.95fr);gap:20px}
+.play-panel{border:1px solid var(--line);background:var(--card);border-radius:22px;padding:22px;min-width:0}
+.play-panel h3{margin:0 0 7px;font-size:1.12rem}
+.panel-sub{color:var(--muted);font-size:.88rem;line-height:1.55;margin:0 0 20px}
+.play-select{width:100%;border:1px solid var(--line);border-radius:13px;padding:12px 14px;background:var(--bg);color:var(--text);font:inherit;margin:0 0 18px}
+.feature-list{display:grid;gap:16px}
+.feature-row{display:grid;grid-template-columns:1fr auto;gap:7px 12px;align-items:center}
+.feature-row label{font-size:.92rem;font-weight:650}
+.feature-value{font-size:.8rem;color:var(--accent);font-weight:800}
+.feature-row input[type=range]{grid-column:1/-1;width:100%;accent-color:var(--accent);cursor:pointer}
+.feature-endpoints{display:flex;justify-content:space-between;grid-column:1/-1;margin-top:-5px;font-size:.7rem;color:var(--muted)}
+.preview-stage{min-height:180px;display:grid;place-items:center;border-radius:18px;background:radial-gradient(circle at 50% 45%,rgba(124,92,255,.16),transparent 65%),var(--bg);margin-bottom:18px;overflow:hidden}
+.preview-emoji{font-size:clamp(5rem,12vw,8rem);filter:drop-shadow(0 12px 15px rgba(0,0,0,.16));transition:transform .25s ease;animation:previewFloat 4s ease-in-out infinite}
+@keyframes previewFloat{0%,100%{transform:translateY(0) rotate(-2deg)}50%{transform:translateY(-8px) rotate(2deg)}}
+.prediction-box{border:1px solid var(--line);border-radius:16px;padding:17px;margin-bottom:16px}
+.prediction-top{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap}
+.prediction-label{font-size:.75rem;letter-spacing:.12em;color:var(--muted);font-weight:800}
+.prediction-name{font-size:1.55rem;letter-spacing:-.04em;font-weight:800;margin-top:5px}
+.confidence-pill{border-radius:999px;padding:8px 11px;background:rgba(30,214,180,.13);color:var(--accent);font-size:.85rem;font-weight:850}
+.confidence-track{height:9px;background:var(--line);border-radius:999px;overflow:hidden;margin:14px 0 8px}
+.confidence-fill{height:100%;width:0;background:linear-gradient(90deg,var(--accent),#7c5cff);border-radius:999px;transition:width .35s ease}
+.muted-small{font-size:.78rem;color:var(--muted);line-height:1.55}
+.rank-list{display:grid;gap:11px}
+.rank-row{display:grid;grid-template-columns:76px 1fr 42px;gap:10px;align-items:center;font-size:.82rem}
+.rank-track{height:7px;background:var(--line);border-radius:99px;overflow:hidden}
+.rank-fill{height:100%;border-radius:99px;background:linear-gradient(90deg,#7c5cff,#1ed6b4);transition:width .35s ease}
+.concept-chips{display:flex;flex-wrap:wrap;gap:7px;margin:14px 0}
+.concept-chip{border:1px solid var(--line);border-radius:999px;padding:6px 9px;font-size:.76rem;color:var(--muted)}
+.explain-note{border-left:3px solid var(--accent);padding:10px 12px;background:rgba(124,92,255,.07);border-radius:0 12px 12px 0;font-size:.84rem;line-height:1.6;margin-top:14px}
+.play-actions{display:flex;gap:9px;flex-wrap:wrap;margin-top:18px}
+.play-actions button{cursor:pointer;border:1px solid var(--line);border-radius:999px;padding:10px 14px;background:var(--bg);color:var(--text);font:inherit;font-weight:700}
+.play-actions button:hover{border-color:var(--accent);transform:translateY(-1px)}
+@media(max-width:760px){.playground-grid{grid-template-columns:1fr}.playground{border-radius:22px}.play-panel{padding:17px}}
+
+</style>
+</head>
+<body>
+<div class="loader" id="loader"><div class="loader-inner"><div class="loader-mark">🧠✨</div><strong style="font-family:'Space Grotesk',sans-serif">Warming up the concepts…</strong><div class="loader-track"><span></span></div></div></div>
+<div class="bg-mesh"></div><div class="blob one"></div><div class="blob two"></div><div class="blob three"></div>
+
+<nav class="nav">
+ <div class="nav-inner">
+  <a class="brand" href="#home"><span class="brand-icon">🧠</span> CBN <span style="color:var(--purple)">LAB</span></a>
+  <div class="nav-links" id="navLinks"><a href="#birds">🐦 Birds</a><a href="#cars">🚗 Cars</a><a href="#clothes">👕 Clothes</a><a href="#fruits">🍓 Fruits</a><a href="#playground">Live preview</a><a href="#how">How it works</a></div>
+  <button class="icon-btn menu-btn" id="menuBtn" aria-label="Toggle navigation">☰</button>
+  <button class="icon-btn" id="themeBtn" aria-label="Toggle dark mode" title="Toggle theme">☀️</button>
+ </div>
+</nav>
+
+<main>
+<section class="hero wrap" id="home">
+ <div class="hero-content">
+  <div class="eyebrow"><i></i> AI, but make it make sense</div>
+  <h1>Meet the AI<br>inside your <span class="gradient-text">everyday.</span></h1>
+  <p class="hero-copy">Welcome to <strong>CBN Demonstration</strong> — a playful little lab where you explore how AI can turn visual clues into decisions. Tap a card, uncover the concepts, and see the thinking behind the prediction.</p>
+  <div class="hero-actions"><a class="btn btn-primary" href="#explore">Let's explore <span>↘</span></a><a class="btn btn-secondary" href="#how">How it works <span>✦</span></a></div>
+  <div class="stats"><div class="stat"><strong>4</strong><span>play zones</span></div><div class="stat"><strong>20+</strong><span>things to explore</span></div><div class="stat"><strong>∞</strong><span>curiosity</span></div></div>
+ </div>
+ <div class="hero-visual" aria-label="Floating concept illustration">
+  <div class="orbit"></div><div class="hero-core"><div class="core-inner"><div class="core-emoji">🧠</div><div class="core-label">CONCEPTS → CLASS</div><div class="core-sub">A peek inside the prediction</div></div></div>
+  <div class="float-chip chip-a"><span>✨</span>Human-readable AI</div><div class="float-chip chip-b"><span>🎛️</span>Change a concept</div><div class="float-chip chip-c"><span>💡</span>Discover why</div>
+ </div>
+</section>
+
+<section class="section wrap" id="explore">
+ <div class="section-head"><div><div class="section-kicker">Choose your adventure</div><h2>Four worlds. <span class="gradient-text">One curious AI.</span></h2></div><p>Every card opens a tiny discovery. Explore the features that help describe an object — and why one feature alone rarely tells the whole story.</p></div>
+ <section class="category" id="birds" data-category="birds">
+  <div class="category-top"><div class="category-icon">🐦</div><div><h3>Birds</h3><p>Feathers, beaks & flighty facts.</p></div><span class="category-count">01 / BIRDLAND</span></div>
+  <div class="cards">
+   <button class="item-card" style="--accent:#fbbf24" data-name="Sparrow" data-emoji="🐦" data-desc="Tiny, lively, and often found close to people." data-fact="Sparrows use their short, strong beaks to crack seeds. Many species also eat insects, especially when feeding chicks." data-concepts="Small body,Short beak,Brown plumage,Rounded wings"><span class="item-emoji">🐦</span><div class="item-name">Sparrow</div><p class="item-desc">Small bird, big city energy.</p><div class="card-bottom"><span>Tap to discover</span><span class="card-arrow">↗</span></div></button>
+   <button class="item-card" style="--accent:#94a3b8" data-name="Crow" data-emoji="🐦‍⬛" data-desc="Clever, adaptable birds with excellent problem-solving skills." data-fact="Crows can recognize human faces and some have been observed using tools to get food." data-concepts="Dark plumage,Broad beak,Medium body,Adaptable behavior"><span class="item-emoji">🐦‍⬛</span><div class="item-name">Crow</div><p class="item-desc">The street-smart problem solver.</p><div class="card-bottom"><span>Tap to discover</span><span class="card-arrow">↗</span></div></button>
+   <button class="item-card" style="--accent:#67e8f9" data-name="Swan" data-emoji="🦢" data-desc="Large waterbirds with long necks and broad bodies." data-fact="Swans have long necks that help them reach aquatic plants beneath the water's surface." data-concepts="Large body,Long neck,Webbed feet,Water-adapted"><span class="item-emoji">🦢</span><div class="item-name">Swan</div><p class="item-desc">Elegant, aquatic, unmistakable.</p><div class="card-bottom"><span>Tap to discover</span><span class="card-arrow">↗</span></div></button>
+   <button class="item-card" style="--accent:#fb7185" data-name="Eagle" data-emoji="🦅" data-desc="Powerful birds of prey with keen vision and hooked beaks." data-fact="Many eagles have excellent eyesight, helping them spot potential prey from far away." data-concepts="Hooked beak,Strong talons,Large wings,Sharp vision"><span class="item-emoji">🦅</span><div class="item-name">Eagle</div><p class="item-desc">Built for soaring and spotting.</p><div class="card-bottom"><span>Tap to discover</span><span class="card-arrow">↗</span></div></button>
+   <button class="item-card" style="--accent:#4ade80" data-name="Parrot" data-emoji="🦜" data-desc="Colorful, vocal birds with curved beaks and gripping feet." data-fact="Parrots have zygodactyl feet: two toes point forward and two backward, helping them grip branches and food." data-concepts="Bright plumage,Curved beak,Gripping feet,Flexible vocal sounds"><span class="item-emoji">🦜</span><div class="item-name">Parrot</div><p class="item-desc">Colorful, chatty, and clever.</p><div class="card-bottom"><span>Tap to discover</span><span class="card-arrow">↗</span></div></button>
+   <button class="item-card" style="--accent:#c4b5fd" data-name="Owl" data-emoji="🦉" data-desc="Mostly nocturnal birds with forward-facing eyes." data-fact="Many owls have specialized feathers that help reduce the sound of their flight." data-concepts="Forward-facing eyes,Facial disc,Silent flight,Strong talons"><span class="item-emoji">🦉</span><div class="item-name">Owl</div><p class="item-desc">The quiet night-time specialist.</p><div class="card-bottom"><span>Tap to discover</span><span class="card-arrow">↗</span></div></button>
+  </div>
+ </section>
+
+ <section class="category" id="cars" data-category="cars">
+  <div class="category-top"><div class="category-icon">🚗</div><div><h3>Cars</h3><p>Body shapes, design & driving facts.</p></div><span class="category-count">02 / AUTO MODE</span></div>
+  <div class="cards">
+   <button class="item-card" style="--accent:#fb7185" data-name="Sedan" data-emoji="🚘" data-desc="A passenger car with a distinct cabin and boot profile." data-fact="The classic three-box sedan design separates the engine area, passenger cabin, and luggage compartment." data-concepts="Three-box profile,Lower roofline,Separate boot,Usually four doors"><span class="item-emoji">🚘</span><div class="item-name">Sedan</div><p class="item-desc">The everyday classic with a boot.</p><div class="card-bottom"><span>Tap to discover</span><span class="card-arrow">↗</span></div></button>
+   <button class="item-card" style="--accent:#67e8f9" data-name="SUV" data-emoji="🚙" data-desc="A taller vehicle often designed for extra space and ground clearance." data-fact="SUV stands for Sport Utility Vehicle. The label covers a wide range of sizes and capabilities." data-concepts="Taller body,High ground clearance,Spacious cabin,Often large wheels"><span class="item-emoji">🚙</span><div class="item-name">SUV</div><p class="item-desc">Tall stance, roomy feel, bold look.</p><div class="card-bottom"><span>Tap to discover</span><span class="card-arrow">↗</span></div></button>
+   <button class="item-card" style="--accent:#fbbf24" data-name="Sports car" data-emoji="🏎️" data-desc="A performance-focused car with a low, sleek silhouette." data-fact="A low center of gravity can help handling, although tires, suspension, weight distribution, and aerodynamics matter too." data-concepts="Low roof,Low stance,Aerodynamic profile,Performance focus"><span class="item-emoji">🏎️</span><div class="item-name">Sports car</div><p class="item-desc">Sleek lines and performance vibes.</p><div class="card-bottom"><span>Tap to discover</span><span class="card-arrow">↗</span></div></button>
+   <button class="item-card" style="--accent:#a78bfa" data-name="Hatchback" data-emoji="🚗" data-desc="A compact car with a rear door that opens upward." data-fact="In many hatchbacks, the rear glass and cargo door lift together, making the boot opening larger." data-concepts="Compact body,Rear hatch,Shorter rear,Flexible cargo area"><span class="item-emoji">🚗</span><div class="item-name">Hatchback</div><p class="item-desc">Compact outside, clever inside.</p><div class="card-bottom"><span>Tap to discover</span><span class="card-arrow">↗</span></div></button>
+   <button class="item-card" style="--accent:#4ade80" data-name="Pickup truck" data-emoji="🛻" data-desc="A vehicle with a passenger cabin and a separate cargo bed." data-fact="The open cargo bed is the pickup's defining design feature and makes it useful for carrying bulky loads." data-concepts="Separate cargo bed,High stance,Strong chassis,Utility-focused"><span class="item-emoji">🛻</span><div class="item-name">Pickup truck</div><p class="item-desc">Ready to haul gear and get things done.</p><div class="card-bottom"><span>Tap to discover</span><span class="card-arrow">↗</span></div></button>
+   <button class="item-card" style="--accent:#f472b6" data-name="Minivan" data-emoji="🚐" data-desc="A people-focused vehicle designed around cabin space." data-fact="Minivans often prioritize sliding doors and a boxy cabin to make entry and passenger space practical." data-concepts="Tall roof,Boxy cabin,Flexible seating,Family-focused"><span class="item-emoji">🚐</span><div class="item-name">Minivan</div><p class="item-desc">A practical space-maximizer.</p><div class="card-bottom"><span>Tap to discover</span><span class="card-arrow">↗</span></div></button>
+  </div>
+ </section>
+
+ <section class="category" id="clothes" data-category="clothes">
+  <div class="category-top"><div class="category-icon">👕</div><div><h3>Clothes</h3><p>Shapes, patterns & wearable design.</p></div><span class="category-count">03 / STYLE STUDIO</span></div>
+  <div class="cards">
+   <button class="item-card" style="--accent:#67e8f9" data-name="T-shirt" data-emoji="👕" data-desc="A casual top, usually with a simple shape and short sleeves." data-fact="The name T-shirt comes from its rough T-like outline when laid flat." data-concepts="T-shaped outline,Short sleeves,Simple neckline,Casual construction"><span class="item-emoji">👕</span><div class="item-name">T-shirt</div><p class="item-desc">Simple, versatile, always in rotation.</p><div class="card-bottom"><span>Tap to discover</span><span class="card-arrow">↗</span></div></button>
+   <button class="item-card" style="--accent:#c4b5fd" data-name="Shirt" data-emoji="👔" data-desc="A top often identified by its collar and front button placket." data-fact="Collars, cuffs, and button placement are useful visual concepts for distinguishing many shirt styles." data-concepts="Collar,Button placket,Cuffs,Structured front"><span class="item-emoji">👔</span><div class="item-name">Shirt</div><p class="item-desc">A collar changes the whole silhouette.</p><div class="card-bottom"><span>Tap to discover</span><span class="card-arrow">↗</span></div></button>
+   <button class="item-card" style="--accent:#94a3b8" data-name="Jacket" data-emoji="🧥" data-desc="An outer layer that often has a front opening and heavier structure." data-fact="Jackets are outerwear; details like zippers, lapels, insulation, and length distinguish different types." data-concepts="Outer layer,Front opening,Long sleeves,Structured shape"><span class="item-emoji">🧥</span><div class="item-name">Jacket</div><p class="item-desc">Layer up: structure meets function.</p><div class="card-bottom"><span>Tap to discover</span><span class="card-arrow">↗</span></div></button>
+   <button class="item-card" style="--accent:#fb7185" data-name="Dress" data-emoji="👗" data-desc="A garment combining an upper section and a skirt-like lower section." data-fact="Dress silhouettes are often described by their shape, such as A-line, sheath, wrap, or fit-and-flare." data-concepts="One-piece silhouette,Skirt section,Variable sleeves,Variable length"><span class="item-emoji">👗</span><div class="item-name">Dress</div><p class="item-desc">One piece, endless silhouettes.</p><div class="card-bottom"><span>Tap to discover</span><span class="card-arrow">↗</span></div></button>
+   <button class="item-card" style="--accent:#60a5fa" data-name="Jeans" data-emoji="👖" data-desc="Trousers commonly made from denim, with recognizable seams and pockets." data-fact="Denim is traditionally a sturdy twill fabric, often woven with indigo-dyed warp yarns." data-concepts="Two leg sections,Denim texture,Visible seams,Pockets"><span class="item-emoji">👖</span><div class="item-name">Jeans</div><p class="item-desc">Denim texture and pocket placement clues.</p><div class="card-bottom"><span>Tap to discover</span><span class="card-arrow">↗</span></div></button>
+   <button class="item-card" style="--accent:#fbbf24" data-name="Sneakers" data-emoji="👟" data-desc="Casual footwear often designed for comfort and movement." data-fact="Many sneaker soles use layered materials to balance grip, cushioning, and durability." data-concepts="Rubber-like sole,Laced upper,Foot-shaped profile,Cushioned construction"><span class="item-emoji">👟</span><div class="item-name">Sneakers</div><p class="item-desc">Small details, big comfort differences.</p><div class="card-bottom"><span>Tap to discover</span><span class="card-arrow">↗</span></div></button>
+  </div>
+ </section>
+
+ <section class="category" id="fruits" data-category="fruits">
+  <div class="category-top"><div class="category-icon">🍓</div><div><h3>Fruits</h3><p>Colors, textures & delicious details.</p></div><span class="category-count">04 / FRUIT LAB</span></div>
+  <div class="cards">
+   <button class="item-card" style="--accent:#fb7185" data-name="Apple" data-emoji="🍎" data-desc="A crisp fruit with a rounded shape and a central seed core." data-fact="Apples belong to the rose family, Rosaceae, which also includes pears, cherries, and strawberries." data-concepts="Rounded shape,Smooth skin,Stem cavity,Central seed core"><span class="item-emoji">🍎</span><div class="item-name">Apple</div><p class="item-desc">A round classic with a hidden core.</p><div class="card-bottom"><span>Tap to discover</span><span class="card-arrow">↗</span></div></button>
+   <button class="item-card" style="--accent:#fbbf24" data-name="Banana" data-emoji="🍌" data-desc="An elongated fruit with a peel that changes as it ripens." data-fact="As bananas ripen, starch is converted into sugars and the peel often changes from green toward yellow." data-concepts="Long curved shape,Peel,Color shift,Softening flesh"><span class="item-emoji">🍌</span><div class="item-name">Banana</div><p class="item-desc">Its color can hint at ripeness.</p><div class="card-bottom"><span>Tap to discover</span><span class="card-arrow">↗</span></div></button>
+   <button class="item-card" style="--accent:#fb923c" data-name="Orange" data-emoji="🍊" data-desc="A citrus fruit with a textured peel and segmented interior." data-fact="The orange peel contains oil glands that release the familiar citrus scent when the skin is scratched." data-concepts="Round shape,Textured peel,Citrus aroma,Segmented interior"><span class="item-emoji">🍊</span><div class="item-name">Orange</div><p class="item-desc">A bumpy peel protects juicy segments.</p><div class="card-bottom"><span>Tap to discover</span><span class="card-arrow">↗</span></div></button>
+   <button class="item-card" style="--accent:#c4b5fd" data-name="Grapes" data-emoji="🍇" data-desc="Small fruits that grow in clusters and come in many colors." data-fact="Grapes grow on vines, and varieties may be green, red, purple, or nearly black." data-concepts="Clustered shape,Small berries,Thin skin,Variable color"><span class="item-emoji">🍇</span><div class="item-name">Grapes</div><p class="item-desc">Many little spheres, one cluster.</p><div class="card-bottom"><span>Tap to discover</span><span class="card-arrow">↗</span></div></button>
+   <button class="item-card" style="--accent:#4ade80" data-name="Watermelon" data-emoji="🍉" data-desc="A large fruit with a thick rind and juicy interior." data-fact="Watermelon is made mostly of water, and its rind can be green with stripes or patches." data-concepts="Large oval or round shape,Thick rind,Striped skin,Juicy interior"><span class="item-emoji">🍉</span><div class="item-name">Watermelon</div><p class="item-desc">A tough rind, a refreshing center.</p><div class="card-bottom"><span>Tap to discover</span><span class="card-arrow">↗</span></div></button>
+   <button class="item-card" style="--accent:#f59e0b" data-name="Mango" data-emoji="🥭" data-desc="A tropical stone fruit with a large flat pit." data-fact="Mango skin color is not a reliable ripeness test on its own; smell and gentle feel can help too." data-concepts="Oval shape,Variable skin color,Single large pit,Soft ripe flesh"><span class="item-emoji">🥭</span><div class="item-name">Mango</div><p class="item-desc">Tropical, varied, and full of clues.</p><div class="card-bottom"><span>Tap to discover</span><span class="card-arrow">↗</span></div></button>
+  </div>
+ </section>
+</section>
+
+
+<section class="playground wrap" id="playground">
+  <div class="playground-head">
+    <div><div class="section-kicker">🎛️ YOUR TURN · LIVE MODEL PREVIEW</div><h2>Change a concept.<br><span class="gradient-text">Watch the prediction.</span></h2>
+    <p>Adjust human-readable features and see how the model’s closest match changes. This is a transparent, rule-based teaching simulation of a concept bottleneck—not a trained classifier.</p></div>
+  </div>
+  <div class="playground-grid">
+    <div class="play-panel">
+      <h3>1. Define the concepts</h3><p class="panel-sub">Choose a domain, then move the sliders. The concepts are the interpretable middle layer between an input and a prediction.</p>
+      <label class="muted-small" for="playDomain">Choose a category</label>
+      <select class="play-select" id="playDomain">
+        <option value="birds">🐦 Birds</option><option value="cars">🚗 Cars</option><option value="clothes">👕 Clothes</option><option value="fruits">🍓 Fruits</option>
+      </select>
+      <div class="feature-list" id="featureList"></div>
+      <div class="play-actions"><button type="button" id="resetFeatures">↺ Reset features</button><button type="button" id="randomFeatures">✦ Surprise me</button></div>
+    </div>
+    <div class="play-panel">
+      <h3>2. Model’s prediction</h3><p class="panel-sub">The model compares your concept values against example concept profiles and ranks the closest matches.</p>
+      <div class="preview-stage"><div class="preview-emoji" id="previewEmoji" aria-hidden="true">🐦</div></div>
+      <div class="prediction-box">
+        <div class="prediction-top"><div><div class="prediction-label">TOP PREDICTION</div><div class="prediction-name" id="predictionName">Sparrow</div></div><div class="confidence-pill" id="confidencePill">82% match</div></div>
+        <div class="confidence-track"><div class="confidence-fill" id="confidenceFill"></div></div>
+        <div class="muted-small" id="predictionCaption">Based on similarity between your concepts and the example profiles.</div>
+      </div>
+      <div class="prediction-label" style="margin-bottom:12px">CLOSEST ALTERNATIVES</div><div class="rank-list" id="rankList"></div>
+      <div class="concept-chips" id="activeConcepts"></div>
+      <div class="explain-note" id="explanation">The model uses visible concepts to explain its prediction.</div>
+      <p class="muted-small" style="margin:14px 0 0">What does “match” mean? It is a similarity score against hand-written example profiles, not a real-world accuracy measurement or a guarantee of correctness.</p>
+    </div>
+  </div>
+</section>
+
+<section class="section wrap" id="how">
+ <div class="section-head"><div><div class="section-kicker">A tiny peek under the hood</div><h2>So, how does <span class="gradient-text">CBN work?</span></h2></div><p>Concept Bottleneck Models make an AI's intermediate concepts visible, giving people a way to inspect and sometimes correct what the model believes it sees.</p></div>
+ <div class="how">
+  <article class="how-card"><div class="how-num">STEP 01 / INPUT</div><div class="how-emoji">🖼️</div><h3>See the thing</h3><p>The model receives an input, such as an image of a bird, car, clothing item, or fruit.</p></article>
+  <article class="how-card"><div class="how-num">STEP 02 / CONCEPTS</div><div class="how-emoji">🧩</div><h3>Spot the clues</h3><p>It predicts human-readable concepts — like beak shape, roof height, sleeve length, or fruit texture.</p></article>
+  <article class="how-card"><div class="how-num">STEP 03 / PREDICTION</div><div class="how-emoji">🎯</div><h3>Make a call</h3><p>A final classifier uses those concepts to produce a category. Inspecting the concepts can help reveal where a prediction went wrong.</p></article>
+ </div>
+</section>
+
+<section class="wrap">
+ <div class="cta"><h2>Curiosity looks good on you. <span class="gradient-text">Keep exploring.</span></h2><p>Pick a card, follow a clue, and see how a concept-based explanation can make AI feel a little less like a black box.</p><a class="btn btn-primary" href="#explore">Explore the four worlds <span>↗</span></a></div>
+</section>
+</main>
+<footer class="footer wrap"><span><strong>🧠 CBN LAB</strong> · A playful learning demo</span><span>Interactive concept demo — similarity scores are illustrative, not trained-model accuracy.</span><span>Built for curious minds ✦</span></footer>
+
+<div class="modal" id="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle"><div class="modal-box"><button class="icon-btn modal-close" id="modalClose" aria-label="Close details">✕</button><div class="modal-emoji" id="modalEmoji">🐦</div><div class="section-kicker" id="modalCategory">QUICK DISCOVERY</div><h2 id="modalTitle">Sparrow</h2><p id="modalDesc"></p><div class="section-kicker">CONCEPT CLUES</div><div id="modalConcepts"></div><div style="height:18px"></div><div class="section-kicker">DID YOU KNOW?</div><p id="modalFact"></p><button class="btn btn-primary" id="modalDone">Nice, got it ✨</button></div></div>
+<div class="toast" id="toast" role="status" aria-live="polite">✨ Nice discovery!</div><button class="back-top" id="backTop" aria-label="Back to top">↑</button>
+
+<script>
+const $=(s,root=document)=>root.querySelector(s), $$=(s,root=document)=>[...root.querySelectorAll(s)];
+const modal=$("#modal"),toast=$("#toast");
+let toastTimer, lastFocused=null;
+function showToast(message){toast.textContent=message;toast.classList.add("show");clearTimeout(toastTimer);toastTimer=setTimeout(()=>toast.classList.remove("show"),2100)}
+function openCard(card){
+ lastFocused=card;$("#modalEmoji").textContent=card.dataset.emoji;$("#modalTitle").textContent=card.dataset.name;$("#modalDesc").textContent=card.dataset.desc;$("#modalFact").textContent=card.dataset.fact;
+ const section=card.closest(".category");$("#modalCategory").textContent=section.querySelector("h3").textContent.toUpperCase()+" / QUICK DISCOVERY";
+ $("#modalConcepts").innerHTML=card.dataset.concepts.split(",").map(x=>`<span class="concept-pill">${x}</span>`).join("");
+ modal.classList.add("open");document.body.style.overflow="hidden";$("#modalClose").focus();
+}
+function closeModal(){modal.classList.remove("open");document.body.style.overflow="";if(lastFocused)lastFocused.focus()}
+$$(".item-card").forEach(card=>{card.addEventListener("click",()=>openCard(card));card.addEventListener("keydown",e=>{if(e.key==="Enter"||e.key===" ")openCard(card)})});
+$("#modalClose").addEventListener("click",closeModal);$("#modalDone").addEventListener("click",closeModal);modal.addEventListener("click",e=>{if(e.target===modal)closeModal()});document.addEventListener("keydown",e=>{if(e.key==="Escape"&&modal.classList.contains("open"))closeModal()});
+const observer=new IntersectionObserver(entries=>{entries.forEach(entry=>{if(entry.isIntersecting){const cards=$$(".item-card",entry.target);cards.forEach((card,i)=>{card.style.setProperty("--delay",`${i*75}ms`);card.classList.add("visible")});observer.unobserve(entry.target)}})},{threshold:.12});
+$$(".category").forEach(section=>observer.observe(section));
+const sections=$$(".category");const navLinks=$$(".nav-links a");
+const activeObserver=new IntersectionObserver(entries=>entries.forEach(e=>{if(e.isIntersecting){navLinks.forEach(a=>a.classList.toggle("active-link",a.getAttribute("href")==="#"+e.target.id))}}),{rootMargin:"-25% 0px -60% 0px"});
+sections.forEach(s=>activeObserver.observe(s));
+$("#themeBtn").addEventListener("click",()=>{document.body.classList.toggle("light");$("#themeBtn").textContent=document.body.classList.contains("light")?"🌙":"☀️";showToast(document.body.classList.contains("light")?"Light mode activated ☀️":"Dark mode activated 🌙")});
+$("#menuBtn").addEventListener("click",()=>$("#navLinks").classList.toggle("open"));
+navLinks.forEach(a=>a.addEventListener("click",()=>$("#navLinks").classList.remove("open")));
+const backTop=$("#backTop");window.addEventListener("scroll",()=>backTop.classList.toggle("show",window.scrollY>650),{passive:true});backTop.addEventListener("click",()=>window.scrollTo({top:0,behavior:"smooth"}));
+window.addEventListener("load",()=>setTimeout(()=>$("#loader").classList.add("hide"),650));
+
+// Live concept-bottleneck preview: interpretable feature profiles + nearest-profile scoring.
+(function(){
+ const domains = {
+  birds:{emoji:'🐦',features:[
+   {key:'size',label:'Body size',ends:['Small','Large'],default:28},
+   {key:'beak',label:'Beak shape',ends:['Short / blunt','Long / hooked'],default:25},
+   {key:'wings',label:'Wing span',ends:['Short','Wide'],default:38},
+   {key:'color',label:'Color brightness',ends:['Muted','Bright'],default:52},
+   {key:'habitat',label:'Water association',ends:['Land','Water'],default:12}
+  ],items:[
+   ['Sparrow','🐦',[20,20,28,35,5]],['Crow','🐦‍⬛',[42,30,45,8,5]],['Swan','🦢',[78,22,80,78,95]],['Eagle','🦅',[82,95,92,48,12]],['Parrot','🦜',[45,48,52,98,10]],['Owl','🦉',[55,82,40,22,15]]]},
+  cars:{emoji:'🚗',features:[
+   {key:'size',label:'Vehicle size',ends:['Compact','Large'],default:45},
+   {key:'height',label:'Body height',ends:['Low','Tall'],default:40},
+   {key:'sport',label:'Sportiness',ends:['Practical','Performance'],default:35},
+   {key:'doors',label:'Passenger doors',ends:['2 doors','4+ doors'],default:70},
+   {key:'cargo',label:'Cargo capacity',ends:['Low','High'],default:35}
+  ],items:[
+   ['Sedan','🚘',[52,38,35,80,48]],['SUV','🚙',[82,82,38,82,82]],['Sports car','🏎️',[35,18,98,20,20]],['Hatchback','🚗',[32,43,30,78,38]],['Pickup truck','🛻',[88,78,48,45,98]],['Minivan','🚐',[88,88,18,90,90]]]},
+  clothes:{emoji:'👕',features:[
+   {key:'coverage',label:'Body coverage',ends:['Minimal','Full'],default:48},
+   {key:'formality',label:'Formality',ends:['Casual','Formal'],default:20},
+   {key:'warmth',label:'Warmth',ends:['Light','Insulated'],default:25},
+   {key:'length',label:'Length',ends:['Short','Long'],default:40},
+   {key:'footwear',label:'Worn on feet',ends:['No','Yes'],default:5}
+  ],items:[
+   ['T-shirt','👕',[35,8,12,25,0]],['Shirt','👔',[55,55,20,40,0]],['Jacket','🧥',[78,35,85,52,0]],['Dress','👗',[82,70,18,90,0]],['Jeans','👖',[62,25,40,75,0]],['Sneakers','👟',[12,15,28,10,100]]]},
+  fruits:{emoji:'🍎',features:[
+   {key:'size',label:'Fruit size',ends:['Small','Large'],default:42},
+   {key:'sweet',label:'Sweetness',ends:['Tart','Very sweet'],default:70},
+   {key:'texture',label:'Texture / firmness',ends:['Soft','Firm'],default:60},
+   {key:'water',label:'Water content',ends:['Low','High'],default:65},
+   {key:'color',label:'Skin color intensity',ends:['Muted','Vivid'],default:65}
+  ],items:[
+   ['Apple','🍎',[42,62,82,48,70]],['Banana','🍌',[48,88,38,62,78]],['Orange','🍊',[42,68,60,78,92]],['Grapes','🍇',[18,80,32,72,76]],['Watermelon','🍉',[98,82,35,98,65]],['Mango','🥭',[60,95,42,72,95]]]}
+ };
+ const $=id=>document.getElementById(id);
+ const domainSelect=$('playDomain'), featureList=$('featureList');
+ if(!domainSelect||!featureList)return;
+ let values={};
+ function makeFeatures(){
+  const d=domains[domainSelect.value]; values={};
+  featureList.innerHTML='';
+  d.features.forEach(f=>{
+   values[f.key]=f.default;
+   const row=document.createElement('div');row.className='feature-row';
+   row.innerHTML=`<label for="feature-${f.key}">${f.label}</label><span class="feature-value" id="value-${f.key}">${f.default}%</span><input id="feature-${f.key}" type="range" min="0" max="100" value="${f.default}" aria-label="${f.label}"><div class="feature-endpoints"><span>${f.ends[0]}</span><span>${f.ends[1]}</span></div>`;
+   featureList.appendChild(row);
+   row.querySelector('input').addEventListener('input',e=>{values[f.key]=Number(e.target.value);$('value-'+f.key).textContent=e.target.value+'%';predict();});
+  });
+  predict();
+ }
+ function predict(){
+  const d=domains[domainSelect.value];
+  const ranked=d.items.map(item=>{
+   const diffs=item[2].map((v,i)=>Math.abs(v-values[d.features[i].key]));
+   const distance=diffs.reduce((a,b)=>a+b,0)/diffs.length;
+   return {name:item[0],emoji:item[1],profile:item[2],distance,score:Math.max(1,Math.round(100-distance))};
+  }).sort((a,b)=>a.distance-b.distance);
+  const top=ranked[0],second=ranked[1];
+  $('previewEmoji').textContent=top.emoji;
+  $('predictionName').textContent=top.name;
+  $('confidencePill').textContent=top.score+'% match';
+  $('confidenceFill').style.width=top.score+'%';
+  $('predictionCaption').textContent=top.score>=85?'Your concepts closely resemble this example profile.':top.score>=65?'This is the closest profile, though some concepts differ.':'The closest profile is a weak match—try adjusting the concepts.';
+  $('rankList').innerHTML=ranked.slice(1,4).map(r=>`<div class="rank-row"><span>${r.emoji} ${r.name}</span><div class="rank-track"><div class="rank-fill" style="width:${r.score}%"></div></div><strong>${r.score}%</strong></div>`).join('');
+  $('activeConcepts').innerHTML=d.features.map(f=>`<span class="concept-chip">${f.label}: <strong>${values[f.key]}%</strong></span>`).join('');
+  const differences=d.features.map((f,i)=>({label:f.label,diff:Math.abs(values[f.key]-top.profile[i])})).sort((a,b)=>b.diff-a.diff);
+  const closest=differences.slice(-2).reverse().map(x=>x.label.toLowerCase());
+  const farthest=differences.slice(0,2).map(x=>x.label.toLowerCase());
+  $('explanation').textContent=`Why ${top.name}? Its example profile is the nearest match to your chosen concepts. The closest-aligned concepts are ${closest.join(' and ')}; the biggest differences are ${farthest.join(' and ')}. Change a slider to see how the ranking responds.`;
+ }
+ domainSelect.addEventListener('change',makeFeatures);
+ $('resetFeatures').addEventListener('click',makeFeatures);
+ $('randomFeatures').addEventListener('click',()=>{
+  const d=domains[domainSelect.value];
+  d.features.forEach(f=>{const v=Math.floor(Math.random()*101);values[f.key]=v;const input=$('feature-'+f.key);input.value=v;$('value-'+f.key).textContent=v+'%';});
+  predict();
+ });
+ makeFeatures();
+})();
+
+</script>
+</body>
+</html>
